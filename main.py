@@ -32,7 +32,7 @@ class Sistemainvestimento:
         self.configurar_tela_investimento()
         self.configurar_tela_imovel1() # ZenithPlace (tela de descrição)
         self.configurar_tela_imovel2() # Topázio Imperial Hotel (tela de descrição)
-        self.configurar_tela_listar_imovel1() # Semanas de PASTELZINHO DE CHOCOLATE
+        self.configurar_tela_listar_imovel1() # Semanas de Petra Palace
         self.configurar_tela_listar_imovel2() # Semanas de Topázio Imperial Hotel
         self.configurar_tela_listar_imovel_zenith() # Semanas de ZenithPlace
 
@@ -246,22 +246,21 @@ class Sistemainvestimento:
         titulo = tk.Label(frame_investimento, text="Escolha o Empreendimento", font=("Arial", 18, "bold"), bg="#f0f0f0", fg="#333333")
         titulo.pack(pady=20)
 
-        # Botão para Imóvel 1 (ZenithPlace)
+    
         btn_imovel_zenith = tk.Button(frame_investimento, text=f"Imóvel - {banco_dados_simulado['imoveis']['ZenithPlace'].nome}", width=35, height=2,
-                                     command=lambda: self.mostrar_tela("tela_imovel1"), # Vai para tela_imovel1 para descrição de ZenithPlace
-                                     font=("Arial", 14), bg="#009688", fg="white", relief="raised", bd=3)
+                                     command=lambda: self.mostrar_tela("tela_imovel1"), 
+                                     font=("Arial", 14), bg="#5D4037", fg="white", relief="raised", bd=3)
         btn_imovel_zenith.pack(pady=10, padx=20)
 
-        # Botão para Imóvel Pastelzinho de Chocolate
-        btn_imovel_pastelzinho = tk.Button(frame_investimento, text=f"Imóvel - {banco_dados_simulado['imoveis']['PASTELZINHO DE CHOCOLATE'].nome}", width=35, height=2,
-                                     command=lambda: self.mostrar_tela("tela_listar_imovel1"), # Vai direto para a lista de semanas de Pastelzinho
-                                     font=("Arial", 14), bg="#FF5722", fg="white", relief="raised", bd=3)
-        btn_imovel_pastelzinho.pack(pady=10, padx=20)
+        btn_imovel_petra = tk.Button(frame_investimento, text=f"Imóvel - {banco_dados_simulado['imoveis']['Petra Palace'].nome}", width=35, height=2,
+                                     command=lambda: self.mostrar_tela("tela_listar_imovel1"), 
+                                     font=("Arial", 14), bg="#5D4037", fg="white", relief="raised", bd=3)
+        btn_imovel_petra.pack(pady=10, padx=20)
 
-        # Botão para Imóvel 2 (Topázio Imperial Hotel)
+
         btn_imovel_topazio = tk.Button(frame_investimento, text=f"Imóvel - {banco_dados_simulado['imoveis']['Topázio Imperial Hotel'].nome}", width=35, height=2,
-                                      command=lambda: self.mostrar_tela("tela_imovel2"), # Vai para tela_imovel2 para descrição de Topázio
-                                      font=("Arial", 14), bg="#795548", fg="white", relief="raised", bd=3)
+                                      command=lambda: self.mostrar_tela("tela_imovel2"), 
+                                      font=("Arial", 14), bg="#5D4037", fg="white", relief="raised", bd=3)
         btn_imovel_topazio.pack(pady=10, padx=20)
 
 
@@ -333,7 +332,7 @@ class Sistemainvestimento:
                                font=("Arial", 12), bg="#607D8B", fg="white", relief="raised", bd=3)
         btn_voltar.pack(pady=10)
 
-    def configurar_tela_listar_imovel1(self): # Semanas do PASTELZINHO DE CHOCOLATE
+    def configurar_tela_listar_imovel1(self): 
         tela_listar = self.telas["tela_listar_imovel1"]
         for widget in tela_listar.winfo_children(): # Limpa widgets antigos
             widget.destroy()
@@ -341,7 +340,7 @@ class Sistemainvestimento:
         frame_listar = tk.Frame(tela_listar, pady=20, bg="#f0f0f0")
         frame_listar.pack(fill="both", expand=True)
 
-        imovel_obj = banco_dados_simulado["imoveis"]["PASTELZINHO DE CHOCOLATE"]
+        imovel_obj = banco_dados_simulado["imoveis"]["Petra Palace"]
 
         titulo = tk.Label(frame_listar, text=f"Semanas Disponíveis - {imovel_obj.nome}",
                           font=("Arial", 16, "bold"), fg="#333333", bg="#f0f0f0")

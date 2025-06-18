@@ -9,23 +9,23 @@ usuarios_simulados = [
 
 # Criando imóveis de exemplo
 # Os valores de preco_total são arbitrários para fins de exemplo
-imovel_pastelzinho = Imovel(
-    "PASTELZINHO DE CHOCOLATE",
-    "Rua dos Doces, 789, São Paulo",
+imovel_petra = Imovel(
+    "Petra Palace",
+    "Rua dos Doces, 789, Gramado",
     1200000.00, # Preço total do imóvel
     4, 3, "150m²", "9.5 - Excelente"
 )
 
 imovel_zenith = Imovel(
     "ZenithPlace",
-    "Avenida Principal, 123, Rio de Janeiro",
+    "Avenida Principal, 123, Balneário Camboriú",
     1500000.00, # Preço total do imóvel
     5, 4, "200m²", "9.7 - Excelente"
 )
 
 imovel_topazio = Imovel(
     "Topázio Imperial Hotel",
-    "Praia das Esmeraldas, 456, Salvador",
+    "Praia das Esmeraldas, 456, Torres",
     2000000.00, # Preço total do imóvel
     6, 5, "250m²", "9.8 - Luxuoso"
 )
@@ -35,7 +35,7 @@ imovel_topazio = Imovel(
 # para que os valores batam com o que o usuário tinha no seu código inicial.
 # A geração automática acima é mais genérica. Aqui, garantimos as semanas exatas
 # que você tinha no seu primeiro snippet.
-imovel_pastelzinho.semanas = [
+imovel_petra.semanas = [
     Semana('15', '12/04 - 19/04', 15000.00),
     Semana('22', '31/05 - 07/06', 18000.00),
     Semana('35', '30/08 - 06/09', 22000.00)
@@ -51,7 +51,7 @@ banco_dados_simulado = {
     "usuarios": {u.cpf: u for u in usuarios_simulados}, # Mapeia por CPF para login
     "imoveis": {
         "ZenithPlace": imovel_zenith,
-        "PASTELZINHO DE CHOCOLATE": imovel_pastelzinho,
+        "Petra Palace": imovel_petra,
         "Topázio Imperial Hotel": imovel_topazio
     }
 }
