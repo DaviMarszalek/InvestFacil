@@ -1,54 +1,57 @@
-import random # Necessário para gerar IDs de usuário simulados
+# models.py
+import datetime
 
-# Define a estrutura para um Usuário
 class Usuario:
+    """Define a estrutura para um Usuário."""
     def __init__(self, nome, cpf, senha, id_usuario=None):
         self.nome = nome
         self.cpf = cpf
-        self.senha = senha # Em um sistema real, senhas seriam hashadas
-        self.id = id_usuario if id_usuario else str(random.randint(10000, 99999))
-        self.semanas = [] # Lista de semanas que o usuário possui
+        self.senha = senha  # A senha será tratada como hash no banco de dados
+        self.id = id_usuario
+        # A lista de semanas agora será consultada diretamente do banco de dados
 
-# Define a estrutura para uma Semana de um Imóvel
 class Semana:
-    def __init__(self, numero, periodo, preco, dono=None):
-        self.numero = numero # Número identificador da semana
-        self.periodo = periodo # Período de datas da semana
-        self.preco = preco # Preço da cota da semana
-        self.dono = dono # Objeto Usuario que possui a semana, ou None se disponível
+    """Define a estrutura para uma Semana de um Imóvel."""
+    def __init__(self, numero, periodo, preco, id=None, imovel_id=None, dono_id=None):
+        self.id = id
+        self.imovel_id = imovel_id
+        self.numero = numero
+        self.periodo = periodo
+        self.preco = preco
+        self.dono_id = dono_id # ID do usuário que possui a semana
 
-# Define a estrutura para um Imóvel, que contém uma lista de Semanas
 class Imovel:
-    def __init__(self, nome, localizacao, preco_total, quartos, banheiros, area, avaliacao):
-        self.nome = nome # Nome do imóvel (e.g., "ZenithPlace")
-        self.localizacao = localizacao # Endereço ou descrição da localização
+    """Define a estrutura para um Imóvel, que contém uma lista de Semanas."""
+    def __init__(self, nome, localizacao, preco_total, quartos, banheiros, area, avaliacao, id=None):
+        self.id = id
+        self.nome = nome
+        self.localizacao = localizacao
         self.preco_total = preco_total
         self.quartos = quartos
         self.banheiros = banheiros
         self.area = area
         self.avaliacao = avaliacao
-        self.semanas = self._dividir_em_semanas() # Geração automática das semanas
+        self.semanas = self._gerar_semanas()
 
-    def _dividir_em_semanas(self):
-        semanas = []
-        # Exemplo de lógica de preço por temporada
+    def _gerar_semanas(self):
+        """Gera as 52 semanas do ano com preços diferenciados para alta temporada."""
+        semanas_geradas = []
+        data_inicio_ano = datetime.date(datetime.date.today().year, 1, 1)
+        
         for i in range(1, 53):
-            # Alta temporada: dezembro a fevereiro (semanas 48-52 e 1-8)
-            if (48 <= i <= 52) or (1 <= i <= 8):
-                preco_semana = self.preco_total * 0.03 # 3% do valor total
+            # Preços maiores em Dezembro (semanas 49-52) e Janeiro (semanas 1-4)
+            if (i >= 49 and i <= 52) or (i >= 1 and i <= 4):
+                preco_base = self.preco_total / 60  # Preço maior para alta temporada
             else:
-                preco_semana = self.preco_total * 0.015 # 1.5% do valor total
+                preco_base = self.preco_total / 100 # Preço normal para baixa temporada
+            
+            # Formata o preço para ter duas casas decimais
+            preco = round(preco_base, 2)
 
-            # Período genérico, pode ser aprimorado com datas reais
-            periodo = f"{i}/JAN - {i}/JAN (Exemplo)"
-            # Condicionais para os períodos específicos que você tinha nos snippets
-            if i == 15: periodo = '12/04 - 19/04'
-            if i == 22: periodo = '31/05 - 07/06'
-            if i == 35: periodo = '30/08 - 06/09'
-            if i == 28: periodo = '12/07 - 19/07 (Alta Temporada)'
-            if i == 29: periodo = '19/07 - 26/07 (Alta Temporada)'
-            if i == 41: periodo = '11/10 - 18/10'
+            # Calcula o período da semana
+            inicio_semana = data_inicio_ano + datetime.timedelta(weeks=i-1)
+            fim_semana = inicio_semana + datetime.timedelta(days=6)
+            periodo = f"{inicio_semana.strftime('%d/%m')} - {fim_semana.strftime('%d/%m')}"
 
-            semanas.append(Semana(str(i), periodo, preco_semana))
-        return semanas
-
+            semanas_geradas.append(Semana(numero=i, periodo=periodo, preco=preco))
+        return semanas_geradas
